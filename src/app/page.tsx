@@ -1,183 +1,191 @@
-import { ThemeSelector } from "../components/theme/theme-selector";
+import { AppShell } from "../components/layout/app-shell";
+import { ApplicationHeader } from "../components/layout/application-header";
+import { DesktopSidebar } from "../components/navigation/desktop-sidebar";
+import { MobileNavigation } from "../components/navigation/mobile-navigation";
 
-const statusTokens = [
+const financialMetrics = [
   {
-    label: "Paid",
-    description: "Payment completed",
-    className: "bg-success-surface text-success-foreground",
+    label: "Total expenses",
+    value: "RM68.00",
+    valueClassName: "text-foreground",
   },
   {
-    label: "Pending",
-    description: "Payment is still required",
-    className: "bg-warning-surface text-warning-foreground",
+    label: "To receive",
+    value: "RM35.00",
+    valueClassName: "text-success",
   },
   {
-    label: "Information",
-    description: "Additional session detail",
-    className: "bg-info-surface text-info-foreground",
+    label: "Outstanding",
+    value: "RM20.00",
+    valueClassName: "text-warning",
   },
   {
-    label: "Error",
-    description: "Action requires attention",
-    className: "bg-danger-surface text-danger-foreground",
+    label: "Participants",
+    value: "8",
+    valueClassName: "text-foreground",
   },
-];
+] as const;
+
+const recentSessions = [
+  {
+    activity: "Badminton",
+    schedule: "Saturday, 9:00 PM",
+    venue: "ABC Badminton Centre",
+    amount: "RM68.00",
+    status: "Partially settled",
+    statusClassName: "bg-warning-surface text-warning-foreground",
+  },
+  {
+    activity: "Futsal",
+    schedule: "Wednesday, 8:30 PM",
+    venue: "Arena Sports Hub",
+    amount: "RM120.00",
+    status: "Settled",
+    statusClassName: "bg-success-surface text-success-foreground",
+  },
+] as const;
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background px-4 py-8 text-foreground sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-8">
-        <header className="flex flex-col gap-5 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-2">
-            <p className="text-sm font-semibold tracking-wide text-primary">
-              SPLITSUKAN
-            </p>
-
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Design foundation
-              </h1>
-
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                Preview the semantic colors and appearance settings that will
-                support the SplitSukan interface.
-              </p>
-            </div>
-          </div>
-
-          <ThemeSelector />
-        </header>
-
+    <AppShell
+      sidebar={<DesktopSidebar />}
+      header={
+        <ApplicationHeader
+          title="Sessions"
+          description="Manage your sports expenses fairly."
+        />
+      }
+      mobileNavigation={<MobileNavigation />}
+    >
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <section
-          className="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
-          aria-labelledby="surface-preview-title"
+          aria-labelledby="welcome-title"
+          className={[
+            "overflow-hidden rounded-3xl border border-border",
+            "bg-surface p-5 shadow-sm sm:p-7",
+          ].join(" ")}
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-            <div>
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold tracking-wide text-primary">
+                SPLITSUKAN
+              </p>
+
               <h2
-                id="surface-preview-title"
-                className="text-xl font-semibold tracking-tight"
+                id="welcome-title"
+                className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl"
               >
-                Surface preview
+                Play together. Split fairly.
               </h2>
 
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                Standard cards use semantic surfaces, borders and foreground
-                colors.
+              <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                Create a sports session, record shared expenses, and keep every
+                participant&apos;s balance clear.
               </p>
             </div>
 
-            <span className="w-fit rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
-              Local MVP
+            <span className="w-fit rounded-full bg-info-surface px-3 py-1.5 text-xs font-semibold text-info-foreground">
+              AppShell preview
             </span>
-          </div>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <article className="rounded-xl border border-border bg-surface-muted p-4">
-              <p className="text-sm text-muted-foreground">Total expenses</p>
-              <p className="mt-2 text-2xl font-bold tracking-tight">RM68.00</p>
-            </article>
-
-            <article className="rounded-xl border border-border bg-surface-muted p-4">
-              <p className="text-sm text-muted-foreground">To receive</p>
-              <p className="mt-2 text-2xl font-bold tracking-tight text-success">
-                RM35.00
-              </p>
-            </article>
-
-            <article className="rounded-xl border border-border bg-surface-muted p-4">
-              <p className="text-sm text-muted-foreground">Outstanding</p>
-              <p className="mt-2 text-2xl font-bold tracking-tight text-warning">
-                RM20.00
-              </p>
-            </article>
-
-            <article className="rounded-xl border border-border bg-surface-muted p-4">
-              <p className="text-sm text-muted-foreground">Participants</p>
-              <p className="mt-2 text-2xl font-bold tracking-tight">8</p>
-            </article>
           </div>
         </section>
 
-        <section
-          className="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
-          aria-labelledby="status-preview-title"
-        >
-          <div>
-            <h2
-              id="status-preview-title"
-              className="text-xl font-semibold tracking-tight"
-            >
-              Status colors
-            </h2>
-
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Statuses combine labels, descriptions and semantic colors instead
-              of depending on color alone.
-            </p>
+        <section aria-labelledby="overview-title" className="mt-8">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 id="overview-title" className="text-xl font-bold tracking-tight">
+                Financial overview
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Preview data for the responsive application shell.
+              </p>
+            </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {statusTokens.map((status) => (
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {financialMetrics.map((metric) => (
               <article
-                key={status.label}
-                className={[
-                  "rounded-xl border border-border p-4",
-                  status.className,
-                ].join(" ")}
+                key={metric.label}
+                className="rounded-2xl border border-border bg-surface p-5 shadow-sm"
               >
-                <p className="font-semibold">{status.label}</p>
-                <p className="mt-1 text-sm opacity-80">
-                  {status.description}
+                <p className="text-sm text-muted-foreground">{metric.label}</p>
+                <p
+                  className={[
+                    "mt-2 text-2xl font-bold tracking-tight",
+                    metric.valueClassName,
+                  ].join(" ")}
+                >
+                  {metric.value}
                 </p>
               </article>
             ))}
           </div>
         </section>
 
-        <section
-          className="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
-          aria-labelledby="action-preview-title"
-        >
-          <h2
-            id="action-preview-title"
-            className="text-xl font-semibold tracking-tight"
-          >
-            Action preview
-          </h2>
+        <section aria-labelledby="sessions-title" className="mt-8">
+          <div>
+            <h2 id="sessions-title" className="text-xl font-bold tracking-tight">
+              Recent sessions
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Session management will be implemented in a later milestone.
+            </p>
+          </div>
 
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Buttons use semantic primary and secondary action colors.
-          </p>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            {recentSessions.map((session) => (
+              <article
+                key={`${session.activity}-${session.schedule}`}
+                className="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0">
+                    <h3 className="text-lg font-bold tracking-tight">
+                      {session.activity}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {session.schedule}
+                    </p>
+                    <p className="mt-1 truncate text-sm text-subtle-foreground">
+                      {session.venue}
+                    </p>
+                  </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              className="min-h-11 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-            >
-              Create Session
-            </button>
-
-            <button
-              type="button"
-              className="min-h-11 rounded-xl bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition-colors hover:bg-secondary-hover"
-            >
-              View Details
-            </button>
-
-            <button
-              type="button"
-              className="min-h-11 rounded-xl border border-border-strong bg-surface px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-surface-muted"
-            >
-              Cancel
-            </button>
+                  <div className="shrink-0 sm:text-right">
+                    <p className="text-lg font-bold tracking-tight">
+                      {session.amount}
+                    </p>
+                    <span
+                      className={[
+                        "mt-2 inline-flex rounded-full px-3 py-1",
+                        "text-xs font-semibold",
+                        session.statusClassName,
+                      ].join(" ")}
+                    >
+                      {session.status}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        <footer className="border-t border-border pt-6 text-sm text-subtle-foreground">
-          SplitSukan — Play together. Split fairly.
-        </footer>
+        <section
+          aria-labelledby="shell-notes-title"
+          className="mt-8 rounded-2xl border border-dashed border-border-strong bg-surface-muted p-5 sm:p-6"
+        >
+          <h2 id="shell-notes-title" className="text-lg font-bold tracking-tight">
+            Responsive shell checkpoint
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+            Mobile and tablet layouts use the floating bottom navigation.
+            Laptop and desktop layouts replace it with the left sidebar. The
+            sticky header provides a compact Light, Dark, and System appearance
+            menu.
+          </p>
+        </section>
       </div>
-    </main>
+    </AppShell>
   );
 }
