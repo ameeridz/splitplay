@@ -1,22 +1,23 @@
-# SplitPlay Product Specification
+# SplitSukan Product Specification
 
-**Version:** 0.1  
+**Version:** 0.2  
 **Status:** Approved  
-**Product:** SplitPlay  
+**Product:** SplitSukan  
 **Tagline:** Play together. Split fairly.  
-**Proposed URL:** https://splitplay.ridzu.one  
+**Proposed URL:** https://splitsukan.ridzu.one  
 **Initial language:** English  
-**Initial currency:** MYR
+**Initial currency:** MYR  
+**Last updated:** 22 August 2026
 
 ---
 
 ## 1. Product Vision
 
-SplitPlay is a lightweight, mobile-first Progressive Web App that helps organizers of casual sports sessions record shared expenses, calculate fair participant contributions, track repayments, and prepare a payment summary for WhatsApp.
+SplitSukan is a lightweight, mobile-first Progressive Web App that helps organizers of casual sports sessions record shared expenses, calculate fair participant contributions, track repayments, and prepare transparent payment summaries.
 
-The first release is a single-organizer, local-first application. Participants do not need accounts, invitations, or their own SplitPlay installation.
+The first release is a single-organizer, local-first application. Participants do not need accounts, invitations, or their own SplitSukan installation.
 
-SplitPlay supports real sports-session situations such as:
+SplitSukan supports real sports-session situations such as:
 
 - Different participants sharing different expenses
 - Full-session and half-session participation
@@ -25,8 +26,10 @@ SplitPlay supports real sports-session situations such as:
 - Different people paying different expenses upfront
 - Full and partial repayments
 - Clear identification of who owes money and who should receive money
+- Recipient payment QR attachment
+- Transparent payment instructions suitable for WhatsApp
 
-Every financial result must be transparent and explainable.
+Every financial result must be accurate, deterministic, transparent, and explainable.
 
 ---
 
@@ -44,15 +47,42 @@ The process becomes difficult because:
 - Repayments may be partial
 - Manual calculations can introduce rounding errors
 - Payment updates are scattered across WhatsApp messages
+- Participants may not understand how their amount was calculated
+- Participants need a convenient way to obtain the correct recipient QR
 - It is difficult to see the current amount owed and amount receivable
 
-SplitPlay keeps a session's expenses, allocation rules, repayments, and financial summary in one place.
+SplitSukan keeps a session's expenses, allocation rules, repayments, payment instructions, and financial summary in one place.
 
 ---
 
-## 3. Target User
+## 3. Product Positioning
 
-The primary user is the session organizer.
+SplitSukan is an organizer-first sports expense tool with a no-login local workflow.
+
+The core promise is:
+
+> Record the costs, split them fairly, track repayments, and share a transparent payment summary.
+
+SplitSukan is not intended to become a general sports-management platform during the local MVP.
+
+The product deliberately avoids requiring:
+
+- Google login
+- Participant accounts
+- Group membership
+- Real-time RSVP
+- Match scoring
+- Player statistics
+- Subscriptions
+- Advertisements
+
+---
+
+## 4. Target Users
+
+### 4.1 Organizer
+
+The organizer is the primary user in the local MVP.
 
 The organizer can:
 
@@ -62,67 +92,87 @@ The organizer can:
 - Choose who shares each expense
 - Configure full-session and half-session participation
 - Configure fixed contributions and sponsorships
+- Attach a payment QR to a participant who should receive money
 - Record repayments
 - Review outstanding balances
 - Copy a payment summary for WhatsApp
 - Mark a financially completed session as settled
 
-Participants do not interact with the app directly in the local MVP.
+### 4.2 Participant or Guest
+
+Participants do not interact directly with the local MVP.
+
+After the local MVP is stable, a read-only guest payment link may allow participants to:
+
+- Open a shared session without login
+- Select a participant name
+- View the amount assigned to that participant
+- Review how the amount was calculated
+- View or download the correct recipient QR
+- View the organizer-maintained payment status
+
+A guest link is a shared group-information page, not an authenticated private portal.
 
 ---
 
-## 4. Product Principles
+## 5. Product Principles
 
-### 4.1 Organizer First
+### 5.1 Organizer First
 
 Optimize the complete workflow for one organizer using one device.
 
-### 4.2 Fast Data Entry
+### 5.2 Fast Data Entry
 
 Common expenses should require minimal typing and few steps.
 
-### 4.3 Transparent Calculations
+### 5.3 Transparent Calculations
 
 The organizer must be able to understand the total, upfront payer, sharers, individual allocations, contributions, outstanding balances, and repayments.
 
-### 4.4 Progressive Complexity
+### 5.4 Progressive Complexity
 
-Show the basic equal-split flow first. Weighted splits, fixed contributions, sponsorships, and notes belong under advanced options.
+Show the basic equal-split flow first. Weighted splits, fixed contributions, sponsorships, and optional notes belong under advanced options.
 
-### 4.5 Local First
+### 5.5 Local First
 
-The app works without registration, login, cloud database, or participant accounts. Application data is stored locally and can be exported as JSON.
+The local MVP works without registration, login, cloud database, or participant accounts. Application data is stored locally and can be exported as JSON.
 
-### 4.6 Mobile First
+### 5.6 Mobile First
 
 Design for mobile phones first, then adapt for tablets, laptops, desktops, and installed PWA mode.
 
-### 4.7 Financial Accuracy
+### 5.7 Financial Accuracy
 
 Store money as integer minor units. Every valid expense and session must balance to zero.
 
+### 5.8 Privacy by Minimization
+
+Store only the information required for session calculations and payment instructions. Do not require participant phone numbers, emails, addresses, identity numbers, or banking credentials.
+
 ---
 
-## 5. Initial Constraints
+## 6. Initial Product Constraints
 
 - Single organizer
 - Single device at a time
 - No login or authentication
+- No Google login
 - No Supabase or cloud database
 - No real-time collaboration
-- No participant portal
+- No participant portal in the local MVP
 - No online payment gateway
 - No direct WhatsApp API integration
 - MYR-first, one currency per session
 - One upfront payer per expense
 - `localStorage` persistence
 - Versioned JSON backup and restore
+- Organizer controls the official repayment status
 
 ---
 
-## 6. MVP Scope
+## 7. Local MVP Scope
 
-### 6.1 Session Management
+### 7.1 Session Management
 
 The organizer can create, view, edit, duplicate, delete, settle, and reopen sessions.
 
@@ -139,6 +189,7 @@ Each session contains:
 - Participants
 - Expenses
 - Repayments
+- Payment profiles or recipient QR references
 
 Session statuses:
 
@@ -148,7 +199,7 @@ Session statuses:
 
 A new session starts as Draft. It may become Active after the first valid expense is created. A session can be marked Settled only after at least one expense exists and every current balance is zero.
 
-### 6.2 Participant Management
+### 7.2 Participant Management
 
 The organizer can:
 
@@ -158,15 +209,16 @@ The organizer can:
 - Set Full or Half as the default participation weight
 - Include or exclude participants per expense
 - Override a participant's weight for one expense
+- Attach a payment QR when the participant may receive money
 
 Weights:
 
 - Full = 1000 weight units
 - Half = 500 weight units
 
-A participant referenced by an expense or repayment cannot be deleted unsafely.
+A participant referenced by an expense, contribution, repayment, or payment profile cannot be deleted unsafely.
 
-### 6.3 Expense Management
+### 7.3 Expense Management
 
 The organizer can:
 
@@ -191,7 +243,7 @@ Initial categories:
 
 Categories affect presentation only, not calculation.
 
-### 6.4 Repayment Tracking
+### 7.4 Repayment Tracking
 
 An upfront payment records who paid an external party. A repayment records money transferred between session participants.
 
@@ -205,7 +257,27 @@ A repayment contains:
 
 Multiple partial repayments are supported. Payment status is derived automatically.
 
-### 6.5 Summary and Sharing
+### 7.5 Recipient Payment QR
+
+The local MVP may allow the organizer to attach a payment QR to a participant who should receive money.
+
+The organizer can:
+
+- Upload a QR image
+- Preview the QR
+- Replace the QR
+- Remove the QR
+- Download the QR
+- Add an optional payment instruction
+- Show the QR recipient beside the QR
+
+The application must not claim that an uploaded QR has been verified.
+
+Payment guidance should remind participants to confirm that the recipient name displayed by the banking application matches the intended SplitSukan recipient.
+
+A QR is associated with a receiving participant rather than the entire session because one session may have multiple receivers.
+
+### 7.6 Summary and Sharing
 
 The app shows:
 
@@ -217,65 +289,157 @@ The app shows:
 - Amount allocated to each participant
 - Amount each participant owes or should receive
 - Suggested settlements
+- Payment recipients
+- Available recipient QR indicators
 - Payment statuses
 
-The organizer can review and copy a compact plain-text summary for WhatsApp. SplitPlay does not send the message automatically.
+The organizer can review and copy a compact plain-text summary for WhatsApp. SplitSukan does not send the message automatically.
 
-### 6.6 Local App Features
+### 7.7 Local App Features
 
 - Zustand runtime state
 - `localStorage` persistence
 - Versioned storage schema
 - JSON export and restore
 - Light, Dark, and System themes
-- Responsive mobile and desktop layouts
+- Responsive mobile, tablet, laptop, and desktop layouts
 - Installable PWA
 - Offline app shell
 
 ---
 
-## 7. Out of Scope
+## 8. Deliberately Out of Scope for Local MVP
 
 The local MVP excludes:
 
 - Registration, login, profiles, and password recovery
+- Google login
 - Supabase, cloud storage, and cross-device synchronization
 - Participant invitation links and live collaboration
 - Roles and permissions
+- Group membership
+- Live RSVP
 - Payment gateways and automatic bank reconciliation
-- DuitNow payment processing or QR generation
+- Automatic QR validation
+- DuitNow payment processing
 - Direct WhatsApp, SMS, email, or push notifications
 - Receipt images and OCR
 - Currency conversion or multiple currencies in one session
 - Percentage-based custom split and arbitrary formulas
 - Recurring expense automation
-- Court booking, scores, tournaments, rankings, and sports analytics
+- Court booking
+- Match scoring
+- Tournaments and rankings
+- Player statistics
+- Polls
 - Club or team administration
+- Subscriptions
+- Advertisements
 - PDF or spreadsheet reports
 - Native Android or iOS applications
 
-A proposed feature belongs in the MVP only if it is necessary to create a session, add participants, record and split expenses, identify balances, record repayments, copy a summary, or preserve the data locally.
+A proposed feature belongs in the local MVP only if it is necessary to create a session, add participants, record and split expenses, identify balances, record repayments, provide payment instructions, copy a summary, or preserve the data locally.
 
 ---
 
-## 8. Primary User Journey
+## 9. Post-MVP Guest Payment Link
+
+After the local MVP is stable, SplitSukan may support a no-login, read-only guest payment link.
+
+### 9.1 Organizer Flow
 
 ```text
-Open SplitPlay
+Complete session calculation
+→ Attach recipient QR
+→ Review guest summary
+→ Publish a selected read-only snapshot
+→ Receive a random share link
+→ Copy the link to WhatsApp
+```
+
+### 9.2 Guest Flow
+
+```text
+Open shared link
+→ Select participant name
+→ View assigned amount
+→ Review calculation breakdown
+→ View payment recipient
+→ View or download recipient QR
+```
+
+### 9.3 Guest Page Content
+
+The guest page may show:
+
+- Activity
+- Date, time, and venue
+- Selected participant amount
+- Expense breakdown affecting the selected participant
+- Settlement instructions
+- Recipient names
+- Recipient QR images
+- Organizer-maintained payment status
+- Published timestamp
+- Last-updated timestamp
+
+### 9.4 Guest Link Restrictions
+
+The guest page must be:
+
+- Read-only
+- Accessible without login
+- Protected by a random, difficult-to-guess token
+- Revocable by the organizer
+- Optionally expiring
+- Limited to a selected published snapshot
+
+The guest page must not expose:
+
+- Organizer settings
+- Other sessions
+- Saved participant address book
+- Internal notes not selected for publishing
+- Edit actions
+- Banking credentials
+- Technical identifiers
+- Local JSON backup data
+
+### 9.5 Identity Limitation
+
+Selecting a participant name does not authenticate identity.
+
+Anyone with the shared link may be able to select another participant's name. Therefore, the guest page must be treated as shared group information and must not contain sensitive personal information.
+
+### 9.6 Payment Status Authority
+
+The organizer remains the source of truth for official payment status.
+
+The guest page must not allow a participant to directly set a repayment to Paid.
+
+A future optional action such as `I've sent the payment` may create a non-final state such as `Payment reported`, but the organizer must verify the payment before the official status changes to Paid.
+
+---
+
+## 10. Primary User Journey
+
+```text
+Open SplitSukan
 → Create Session
 → Add Participants
 → Record Expenses
 → Review Calculations
+→ Add Recipient QR where needed
 → Copy WhatsApp Summary
 → Record Repayments
 → Settle Session
 ```
 
-### 8.1 First Use
+### 10.1 First Use
 
-Show SplitPlay branding, tagline, a concise explanation, an empty state, a prominent Create Session action, Settings access, and theme access. Do not require onboarding, permissions, registration, or personal information.
+Show SplitSukan branding, tagline, a concise explanation, an empty state, a prominent Create Session action, Settings access, and theme access. Do not require onboarding, permissions, registration, or personal information.
 
-### 8.2 Create Session
+### 10.2 Create Session
 
 Required fields:
 
@@ -291,11 +455,11 @@ Optional:
 
 After creation, save locally, assign Draft, open the session, and recommend Add Participants.
 
-### 8.3 Add Participants
+### 10.3 Add Participants
 
 The organizer can add new or saved names and assign Full or Half. Adding a participant does not automatically include that participant in every expense.
 
-### 8.4 Add Expense
+### 10.4 Add Expense
 
 The basic form asks for title, amount, upfront payer, and sharers. Before saving, show a live preview.
 
@@ -310,27 +474,28 @@ Juan's own share: RM5.00
 Juan should receive: RM35.00
 ```
 
-### 8.5 Review and Settle
+### 10.5 Review and Settle
 
 The Overview recommends the next useful action:
 
 - No participants → Add Participants
 - Participants but no expenses → Add Expense
+- Receiver without QR → Add Payment QR
 - Outstanding balances → Copy Summary or Record Repayment
 - All balances zero → Mark as Settled
 
-### 8.6 Backup and Restore
+### 10.6 Backup and Restore
 
 Export a recognizable JSON backup. On import, validate first, show a preview, require confirmation, and replace data only after full validation.
 
 ---
 
-## 9. Information Architecture
+## 11. Information Architecture
 
 Top-level areas:
 
 ```text
-SplitPlay
+SplitSukan
 ├── Sessions
 └── Settings
 ```
@@ -349,17 +514,55 @@ Participants are managed from Overview. There are no separate Dashboard, Analyti
 
 ---
 
-## 10. Navigation and Routes
+## 12. Navigation and Responsive App Shell
 
-### 10.1 Responsive Navigation
+### 12.1 Mobile and Tablet Navigation
 
-- Mobile: bottom navigation with Sessions and Settings
-- Tablet: bottom navigation or compact sidebar based on available width
-- Laptop/Desktop: left sidebar
-- Mobile and desktop navigation must not appear simultaneously
-- New Session remains prominent without duplicating competing primary actions
+SplitSukan will use a floating liquid-glass bottom navigation on compact layouts.
 
-### 10.2 Routes
+Primary destinations:
+
+```text
+Sessions
+Create Session
+Settings
+```
+
+The center Create Session action may be represented by a prominent plus button with the accessible name `Create new session`.
+
+The navigation should use:
+
+- A semi-transparent semantic surface
+- Backdrop blur where supported
+- Sufficient opacity for readability
+- A subtle border
+- A restrained shadow
+- Rounded floating-dock geometry
+- Safe-area-aware bottom spacing
+- A solid-surface fallback when backdrop blur is unsupported
+
+Liquid-glass styling is limited primarily to the navigation shell. Financial and content cards use solid semantic surfaces.
+
+### 12.2 Desktop Navigation
+
+Laptop and desktop layouts use a left sidebar with:
+
+- SplitSukan branding
+- Sessions
+- New Session
+- Settings
+
+The mobile bottom navigation and desktop sidebar must not appear simultaneously.
+
+### 12.3 Theme Access
+
+The application header will use a compact appearance button. Activating it opens Light, Dark, and System choices.
+
+The Settings page will provide the full appearance selector.
+
+The segmented selector on the design-preview page is a foundation QA control, not the final application-header control.
+
+### 12.4 Routes
 
 ```text
 /
@@ -378,27 +581,9 @@ Participants are managed from Overview. There are no separate Dashboard, Analyti
 
 The root route is the Sessions screen. Complex forms use dedicated mobile-friendly routes. Participant management initially uses an inline panel, bottom sheet, or dialog rather than a dedicated route.
 
-### 10.3 Screen Inventory
-
-Required screens and states:
-
-- Sessions: first-use empty state, draft, active, settled, loading, data-recovery states
-- Create/Edit Session: validation, saving, failure, success
-- Overview: no participants, no expenses, outstanding, fully settled, not found
-- Participant management: empty, populated, duplicate warning, blocked deletion
-- Expenses: empty, populated, delete confirmation, calculation warning
-- Add/Edit Expense: equal, weighted, contribution, sponsorship, validation, preview
-- Expense Details: standard, weighted, partial/full sponsorship, not found
-- Payments: no expenses, no repayments, partial repayments, fully settled
-- Record Repayment: manual, prefilled suggestion, partial payment, invalid input
-- Summary: outstanding, partly settled, settled, copy success/failure
-- Settings: theme, export, import preview, invalid backup, restore, clear data
-
-Browser Back must behave predictably. Cancelling must not save partial records. Missing records must show a recoverable state.
-
 ---
 
-## 11. Financial Model
+## 13. Financial Model
 
 The financial engine is independent from React, Next.js UI, Zustand, `localStorage`, browser APIs, and theme state.
 
@@ -414,7 +599,7 @@ It is responsible for:
 - Suggested settlements
 - Validation and invariants
 
-### 11.1 Money Representation
+### 13.1 Money Representation
 
 All money is stored as integer sen.
 
@@ -427,7 +612,7 @@ RM40.00 = 4000
 
 Formatted Ringgit is presentation only.
 
-### 11.2 Core Terms
+### 13.2 Core Terms
 
 - **Expense amount:** full amount paid to an external party
 - **Upfront payer:** participant who initially paid the external party
@@ -439,7 +624,7 @@ Formatted Ringgit is presentation only.
 - **Negative balance:** owes money
 - **Zero balance:** financially settled
 
-### 11.3 Expense Validation
+### 13.3 Expense Validation
 
 A valid expense requires:
 
@@ -457,7 +642,7 @@ Invariant:
 Total ordinary shares + Total fixed contributions = Expense amount
 ```
 
-### 11.4 Equal Split
+### 13.4 Equal Split
 
 ```text
 Distributable Amount = Expense Amount - Total Fixed Contributions
@@ -466,7 +651,7 @@ Exact Share = Distributable Amount / Number of Ordinary Sharers
 
 Only selected sharers are affected.
 
-### 11.5 Weighted Split
+### 13.5 Weighted Split
 
 ```text
 Total Weight = Sum of selected weight units
@@ -475,7 +660,7 @@ Exact Share = Distributable Amount × Participant Weight / Total Weight
 
 Full is 1000 and Half is 500. Existing expenses store their own weight snapshot so changing the session default does not alter history.
 
-### 11.6 Fixed Contribution Rule
+### 13.6 Fixed Contribution Rule
 
 A fixed contributor is not also an ordinary sharer for the same expense. The fixed amount replaces that participant's ordinary share.
 
@@ -485,7 +670,7 @@ Remaining Distributable Amount = Expense Amount - Total Fixed Contributions
 
 If the organizer wants a participant to pay a normal share plus extra, the combined target amount is entered as that participant's fixed contribution.
 
-### 11.7 Sponsorship
+### 13.7 Sponsorship
 
 When total contributions equal the expense, the remaining distributable amount is zero.
 
@@ -502,9 +687,7 @@ If Amir both pays and sponsors RM15:
 Amir = RM0.00
 ```
 
-### 11.8 Participant Ledger
-
-For each participant:
+### 13.8 Participant Ledger
 
 ```text
 Total Obligation
@@ -523,7 +706,7 @@ Current Balance
 
 A repayment moves both parties toward zero.
 
-### 11.9 Repayment Validation
+### 13.9 Repayment Validation
 
 A repayment requires:
 
@@ -534,7 +717,7 @@ A repayment requires:
 - Receiver currently should receive money
 - Amount no greater than the smaller of sender debt and receiver receivable
 
-### 11.10 Payment Status
+### 13.10 Payment Status
 
 - `pending`: participant originally owes, sent nothing, and still owes
 - `partially_paid`: participant sent something and still owes
@@ -543,19 +726,19 @@ A repayment requires:
 
 A receiver is never shown as Pending. Receiver progress is shown as amount received and remaining.
 
-### 11.11 Suggested Settlements
+### 13.11 Suggested Settlements
 
 Use a deterministic greedy matching algorithm:
 
 1. Build creditors with positive current balances
 2. Build debtors with negative current balances
-3. Sort both by largest magnitude, with a stable ID/order tie-break
+3. Sort both by largest magnitude, with a stable ID or order tie-break
 4. Transfer the smaller of debtor debt and creditor receivable
 5. Repeat with temporary balances until all reach zero
 
 Suggestions do not change stored state and become real only after a repayment is recorded.
 
-### 11.12 Rounding
+### 13.12 Rounding
 
 Use the largest remainder method:
 
@@ -574,7 +757,7 @@ RM10.00 / 3
 
 The same input must always produce the same result.
 
-### 11.13 Financial Invariants
+### 13.13 Financial Invariants
 
 For every valid expense:
 
@@ -592,30 +775,31 @@ Sum of current balances = 0
 Outstanding owed = Outstanding receivable
 ```
 
-All stored monetary values are finite, non-negative integers where applicable.
+All stored monetary values are finite integers where applicable.
 
-### 11.14 Financial Record Editing
+### 13.14 Financial Record Editing
 
 Editing or deleting an expense recalculates all ledgers, statuses, suggestions, and summaries. Existing repayments are never silently removed. If a proposed change makes repayments unsupported, block the change and explain which records need correction.
 
 ---
 
-## 12. Data Model
+## 14. Data Model
 
-### 12.1 Root Data
+### 14.1 Root Data
 
 ```text
-SplitPlayData
+SplitSukanData
 - schemaVersion
 - sessions[]
 - savedParticipants[]
+- paymentProfiles[]
 - settings
 - metadata
 ```
 
 Initial `schemaVersion` is `1`.
 
-### 12.2 Settings
+### 14.2 Settings
 
 ```text
 AppSettings
@@ -626,7 +810,7 @@ AppSettings
 
 System is the default theme.
 
-### 12.3 Saved Participant
+### 14.3 Saved Participant
 
 ```text
 SavedParticipant
@@ -640,7 +824,26 @@ SavedParticipant
 
 A saved participant is a reusable local suggestion, not an account. Names are not globally unique.
 
-### 12.4 Session
+### 14.4 Payment Profile
+
+```text
+PaymentProfile
+- id
+- savedParticipantId?
+- displayName
+- qrImageData?
+- paymentNote?
+- createdAt
+- updatedAt
+```
+
+A payment profile stores optional local payment instructions for a potential receiver.
+
+The image representation must be selected carefully during implementation because large base64 images can consume significant `localStorage` capacity. Image-size limits, compression, or local browser object storage may be required.
+
+The MVP must never store banking credentials.
+
+### 14.5 Session
 
 ```text
 Session
@@ -663,7 +866,7 @@ Session
 
 Store date as `YYYY-MM-DD` and start time as `HH:mm` to preserve the selected local values.
 
-### 12.5 Session Participant
+### 14.6 Session Participant
 
 ```text
 SessionParticipant
@@ -674,13 +877,14 @@ SessionParticipant
 - defaultWeightUnits
 - participantOrder
 - isActive
+- paymentProfileId?
 - createdAt
 - updatedAt
 ```
 
 All financial records reference `SessionParticipant.id`, not `SavedParticipant.id`. The session-level display name is a historical snapshot.
 
-### 12.6 Expense
+### 14.7 Expense
 
 ```text
 Expense
@@ -706,7 +910,7 @@ ExpenseSharer
 
 Fixed contribution is not a split method. Contributions are applied first; equal or weighted distribution handles the remainder.
 
-### 12.7 Fixed Contribution
+### 14.8 Fixed Contribution
 
 ```text
 FixedContribution
@@ -718,7 +922,7 @@ FixedContribution
 
 Full sponsorship is represented by contribution total equal to expense amount.
 
-### 12.8 Repayment
+### 14.9 Repayment
 
 ```text
 Repayment
@@ -734,7 +938,7 @@ Repayment
 
 `paidAt` is when payment occurred; `createdAt` is when it was recorded.
 
-### 12.9 Derived Data
+### 14.10 Derived Data
 
 Do not store these as independently editable financial truth:
 
@@ -749,20 +953,22 @@ Do not store these as independently editable financial truth:
 
 They are derived from source records.
 
-### 12.10 Referential Integrity
+### 14.11 Referential Integrity
 
 Every payer, sharer, contributor, sender, and receiver must exist in the owning session. Removing a global saved contact cannot remove historical session data. An unused session participant may be deleted; a referenced participant must be retained or deactivated.
 
 ---
 
-## 13. Local Persistence and Backup
+## 15. Local Persistence and Backup
 
-### 13.1 Persistence
+### 15.1 Persistence
 
-Use one stable, versioned `localStorage` document, for example:
+Use one stable, versioned local data document.
+
+Proposed storage key:
 
 ```text
-splitplay:data
+splitsukan:data
 ```
 
 Persistence responsibilities:
@@ -789,13 +995,14 @@ Validate input
 
 On failure, preserve the last valid state.
 
-### 13.2 Empty Data
+### 15.2 Empty Data
 
 ```json
 {
   "schemaVersion": 1,
   "sessions": [],
   "savedParticipants": [],
+  "paymentProfiles": [],
   "settings": {
     "theme": "system",
     "defaultCurrency": "MYR",
@@ -808,24 +1015,24 @@ On failure, preserve the last valid state.
 }
 ```
 
-### 13.3 Backup Envelope
+### 15.3 Backup Envelope
 
 ```text
-SplitPlayBackup
-- backupFormat: splitplay-backup
+SplitSukanBackup
+- backupFormat: splitsukan-backup
 - backupVersion: 1
 - exportedAt
 - application
-- data: SplitPlayData
+- data: SplitSukanData
 ```
 
 Recommended filename:
 
 ```text
-splitplay-backup-YYYY-MM-DD-HHmm.json
+splitsukan-backup-YYYY-MM-DD-HHmm.json
 ```
 
-### 13.4 Import
+### 15.4 Import
 
 Before replacement, validate:
 
@@ -834,37 +1041,39 @@ Before replacement, validate:
 - Data schema version
 - Required fields
 - Session and participant structures
+- Payment profile structures
 - References
 - Integer money and weight values
 - Financial invariants
 
 Show backup date and record counts, then require confirmation. The MVP performs full replacement, not merging. Invalid imports do not modify existing data.
 
-### 13.5 Migration
+### 15.5 Migration
 
 Migrations are explicit, sequential, deterministic, and tested. A future unsupported schema is rejected without guessing or overwriting the original data.
 
-### 13.6 Privacy
+### 15.6 Privacy
 
-Data remains in the current browser or installed PWA storage. Browser data clearing or app removal may delete it. JSON backup is readable and unencrypted. SplitPlay does not collect emails, phone numbers, addresses, IDs, banking credentials, card details, or contact-list data.
+Data remains in the current browser or installed PWA storage. Browser-data clearing or app removal may delete it. JSON backup is readable and unencrypted. SplitSukan does not collect emails, phone numbers, addresses, identity numbers, banking credentials, card details, or contact-list data.
 
 ---
 
-## 14. UI/UX Direction
+## 16. UI and UX Direction
 
-### 14.1 Experience
+### 16.1 Experience
 
-SplitPlay should feel clean, modern, sporty, friendly, fast, and financially trustworthy—not like an accounting system, spreadsheet, bank, or generic admin dashboard.
+SplitSukan should feel clean, modern, sporty, friendly, fast, and financially trustworthy—not like an accounting system, spreadsheet, bank, or generic admin dashboard.
 
-### 14.2 Visual Direction
+### 16.2 Visual Direction
 
 - Primary direction: emerald or balanced sports green
-- Neutral direction: cool gray/slate
+- Neutral direction: cool gray or slate
 - Soft neutral page background and clear surfaces
 - Subtle borders and restrained shadows
 - Rounded but not excessively bubbly corners
 - Lucide React icons
-- No excessive gradients, glassmorphism, or decorative animation
+- Liquid-glass treatment reserved mainly for app navigation
+- No excessive gradients or decorative animation
 
 Use semantic tokens rather than hard-coded component colors:
 
@@ -876,13 +1085,13 @@ info, muted-foreground, focus-ring
 
 Color is never the only status indicator.
 
-### 14.3 Themes
+### 16.3 Themes
 
 Support Light, Dark, and System. System is default.
 
-Dark mode is a complete theme with distinct page, surface, border, input, text, selected, and focus states—not a simple inversion. Theme preference persists and follows live device changes when System is selected.
+Dark mode is a complete theme with distinct page, surface, border, input, text, selection, status, and focus states—not a simple inversion. Theme preference persists and follows live device changes when System is selected.
 
-### 14.4 Typography and Money
+### 16.4 Typography and Money
 
 Use one readable sans-serif family. Financial figures have clear labels and consistent formatting:
 
@@ -894,7 +1103,7 @@ RM1,250.50
 
 Prefer labels such as `Owes RM5.00` and `To receive RM35.00` rather than unexplained signed values.
 
-### 14.5 Action Hierarchy
+### 16.5 Action Hierarchy
 
 Each screen has one dominant primary action:
 
@@ -907,7 +1116,7 @@ Each screen has one dominant primary action:
 
 Destructive actions use clear confirmation and never receive automatic focus.
 
-### 14.6 Forms
+### 16.6 Forms
 
 - Visible labels; placeholders do not replace labels
 - Field-level errors near inputs
@@ -920,7 +1129,7 @@ Destructive actions use clear confirmation and never receive automatic focus.
 
 Amount input shows Ringgit context while converting to integer sen internally.
 
-### 14.7 Participant Selection
+### 16.7 Participant Selection
 
 Use touch-friendly selectable rows or chips, not only a standard multi-select dropdown.
 
@@ -931,17 +1140,17 @@ Use touch-friendly selectable rows or chips, not only a standard multi-select dr
 [ ] Hakim
 ```
 
-Provide Select All, Clear Selection, selected count, Full/Half state, stable order, and live allocation preview.
+Provide Select All, Clear Selection, selected count, Full or Half state, stable order, and live allocation preview.
 
-### 14.8 Cards and Lists
+### 16.8 Cards and Lists
 
-Session cards show activity, date/time, venue, participant count, total expenses, outstanding amount, and status. Expense cards show title, amount, upfront payer, sharer count, split method, and contribution/sponsor indicator. Use lists rather than wide tables on mobile.
+Session cards show activity, date or time, venue, participant count, total expenses, outstanding amount, and status. Expense cards show title, amount, upfront payer, sharer count, split method, and contribution or sponsor indicator. Use lists rather than wide tables on mobile.
 
-### 14.9 Empty and Feedback States
+### 16.9 Empty and Feedback States
 
 Required empty states include no sessions, participants, expenses, and repayments. Provide clear loading, success, and recovery states. Clipboard failure exposes selectable summary text for manual copy.
 
-### 14.10 Copy Style
+### 16.10 Copy Style
 
 Initial UI language is English. Copy is concise, friendly, and non-technical.
 
@@ -966,14 +1175,14 @@ Avoid user-facing terms such as debtor, creditor, ledger, minor unit, invariant,
 
 ---
 
-## 15. Responsive and Accessibility Requirements
+## 17. Responsive and Accessibility Requirements
 
-### 15.1 Layout
+### 17.1 Layout
 
-- Small mobile: single column, compact header, bottom navigation, stacked fields
+- Small mobile: single column, compact header, floating bottom navigation, stacked fields
 - Large mobile: comfortable padding, optional two-column stat cards
 - Tablet: wider container and selective multi-column content
-- Laptop/Desktop: left sidebar, constrained content width, two-column workspace where useful
+- Laptop or desktop: left sidebar, constrained content width, two-column workspace where useful
 - Large desktop: efficient horizontal use without unlimited stretching
 
 Representative test widths:
@@ -984,11 +1193,11 @@ Representative test widths:
 
 No core function depends on device brand, hover, swipe, or a specific orientation. Essential content must not require page-level horizontal scrolling.
 
-### 15.2 Installed PWA and Safe Areas
+### 17.2 Installed PWA and Safe Areas
 
 Respect notches, rounded corners, home indicators, sticky actions, and bottom navigation in browser and standalone mode, portrait and landscape.
 
-### 15.3 Accessibility
+### 17.3 Accessibility
 
 - Semantic HTML and logical headings
 - Visible labels and associated errors
@@ -998,19 +1207,19 @@ Respect notches, rounded corners, home indicators, sticky actions, and bottom na
 - Accessible names for icon-only controls
 - Status conveyed through icon, text, amount, and color
 - Sufficient contrast
-- Usable at 200% text/browser zoom
+- Usable at 200 percent text or browser zoom
 - Reduced-motion support
 - Comfortable touch targets
 - No keyboard traps
 
 ---
 
-## 16. PWA Requirements
+## 18. PWA Requirements
 
 The MVP includes:
 
 - Valid web app manifest
-- SplitPlay app and short names
+- SplitSukan app and short names
 - Theme and background colors
 - Required icons
 - Standalone display mode
@@ -1023,15 +1232,15 @@ Offline does not imply cloud synchronization.
 
 ---
 
-## 17. WhatsApp Summary
+## 19. WhatsApp Summary
 
 The first MVP provides one compact plain-text format.
 
 Example:
 
 ```text
-🏸 SplitPlay — Badminton
-📅 20 Aug 2026, 9:00 PM
+🏸 SplitSukan — Badminton
+📅 22 Aug 2026, 9:00 PM
 📍 ABC Badminton Centre
 
 Expenses
@@ -1051,7 +1260,9 @@ Payment status
 • Faiz — Partially Paid, RM2.00 remaining
 • Hakim — Paid
 
-Generated with SplitPlay
+Payment QR available for Juan and Amir.
+
+Generated with SplitSukan
 Play together. Split fairly.
 ```
 
@@ -1059,16 +1270,16 @@ The preview is visible before copying. The content contains no HTML, Markdown ta
 
 ---
 
-## 18. Automated Financial Test Scenarios
+## 20. Automated Financial Test Scenarios
 
 Required tests include:
 
 1. RM40 equal split among 8 → RM5 each
-2. RM10 equal split among 3 → deterministic RM3.34/RM3.33/RM3.33
+2. RM10 equal split among 3 → deterministic RM3.34, RM3.33, RM3.33
 3. Upfront payer included in the split
 4. Upfront payer excluded from the split
 5. Different sharers for different expenses
-6. Full/Half weighted split totaling the exact expense
+6. Full or Half weighted split totaling the exact expense
 7. Partial fixed contribution
 8. Full sponsorship by a different upfront payer
 9. Full sponsorship by the same upfront payer
@@ -1083,12 +1294,14 @@ Required tests include:
 18. Expense deletion after repayment
 19. Broken participant reference rejection
 20. Every invariant for every valid scenario
+21. Receiver QR association does not alter financial balances
+22. Removing a QR does not alter financial balances
 
 ---
 
-## 19. Definition of Done
+## 21. Definition of Done
 
-### 19.1 Development Task
+### 21.1 Development Task
 
 A task is complete when:
 
@@ -1104,22 +1317,22 @@ A task is complete when:
 - The change has a clear commit and pull request
 - CI and Vercel preview pass when configured
 
-### 19.2 UI Feature
+### 21.2 UI Feature
 
 A UI feature is complete when it supports required empty, populated, error, success, theme, responsive, touch, mouse, keyboard, focus, long-content, and duplicate-submission states.
 
-### 19.3 Financial Engine
+### 21.3 Financial Engine
 
 The engine is complete when equal split, weighted split, deterministic rounding, contributions, sponsorship, ledgers, repayments, statuses, suggestions, validation, and all invariants are implemented and unit tested independently from UI and persistence.
 
-### 19.4 Pull Request
+### 21.4 Pull Request
 
-A PR includes:
+A pull request includes:
 
 - Clear title and purpose
 - Summary of changed files
 - Testing steps
-- Screenshots for visible UI changes, including mobile and dark mode when relevant
+- Screenshots for visible UI changes, including mobile and Dark mode when relevant
 - Acceptance criteria and known limitations
 - Passing lint, types, tests, build, CI, and preview
 - No secrets or unrelated generated files
@@ -1127,7 +1340,7 @@ A PR includes:
 
 ---
 
-## 20. Git and CI/CD Workflow
+## 22. Git and CI/CD Workflow
 
 Primary branch:
 
@@ -1147,78 +1360,56 @@ test/*
 
 No permanent `develop` branch is required initially.
 
-Example branches:
-
-```text
-feature/project-foundation
-feature/theme-system
-feature/responsive-app-shell
-feature/session-creation
-feature/financial-engine
-feature/repayment-tracking
-fix/weighted-rounding
-chore/configure-ci
-```
-
-Commit examples:
-
-```text
-docs: add SplitPlay product specification
-feat: add responsive application shell
-feat: implement equal split calculation
-test: cover weighted split rounding
-fix: prevent contribution from exceeding expense
-chore: configure GitHub Actions
-```
-
-CI for pull requests and main should run:
+CI for pull requests and `main` runs:
 
 ```text
 Install dependencies
 → Lint
 → Type check
-→ Tests
+→ Tests when available
 → Production build
 ```
 
-Vercel supplies preview deployments for pull requests and production deployment from the protected production branch. Secrets are never committed.
+Vercel supplies preview deployments for pull requests and production deployment from `main`. Secrets are never committed.
 
 ---
 
-## 21. MVP Release and Exit Criteria
+## 23. MVP Release and Exit Criteria
 
 The local MVP is stable only when this end-to-end scenario succeeds:
 
-1. Open SplitPlay on mobile without an account
+1. Open SplitSukan on mobile without an account
 2. Create a Badminton session with date, time, and venue
 3. Add eight participants
 4. Add a RM40 Court expense paid by Juan and shared equally
 5. Confirm RM5 each and Juan receivable RM35
 6. Add another expense paid by someone else and shared by selected participants only
-7. Add a Full/Half weighted expense
+7. Add a Full or Half weighted expense
 8. Add a partial fixed contribution
 9. Add a fully sponsored expense
 10. Confirm all participant balances and zero-sum invariant
 11. Generate valid suggested settlements
-12. Review and copy a readable WhatsApp summary
-13. Record a partial repayment and confirm Partially Paid
-14. Record remaining repayments and reach all zero balances
-15. Mark the session Settled
-16. Close and reopen the app and retain the session
-17. Export, validate, and restore a JSON backup
-18. Complete the flow in Light and Dark themes
-19. Complete the primary flow on mobile and desktop
-20. Pass lint, type checking, tests, CI, and production build
-21. Install and open the PWA successfully
-22. Access existing local data and calculations offline
+12. Attach a payment QR to a receiver
+13. Review and copy a readable WhatsApp summary
+14. Download or view the correct recipient QR
+15. Record a partial repayment and confirm Partially Paid
+16. Record remaining repayments and reach all zero balances
+17. Mark the session Settled
+18. Close and reopen the app and retain the session
+19. Export, validate, and restore a JSON backup
+20. Complete the flow in Light and Dark themes
+21. Complete the primary flow on mobile and desktop
+22. Pass lint, type checking, tests, CI, and production build
+23. Install and open the PWA successfully
+24. Access existing local data and calculations offline
 
-Post-MVP work may begin only after financial tests, persistence, backup/restore, responsiveness, themes, installation, and critical defect resolution are verified.
+Post-MVP work may begin only after financial tests, persistence, backup or restore, responsiveness, themes, installation, and critical-defect resolution are verified.
 
 ---
 
-## 22. Product Change Control
+## 24. Product Change Control
 
-This document is the source of truth for the SplitPlay local MVP.
+This document is the source of truth for the SplitSukan local MVP.
 
 When a product decision changes:
 
@@ -1229,7 +1420,29 @@ When a product decision changes:
 5. Implement the change in a dedicated task
 6. Avoid unrelated changes
 
-Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-organizer collaboration, reminders, live summaries, DuitNow QR, receipts, reporting, or club management—requires a new product review.
+Potential post-MVP work—hosted guest snapshots, participant reporting, cloud sync, reminders, receipt handling, or club management—requires a new product review.
+
+---
+
+## 25. Naming and Technical Identifiers
+
+Official product capitalization:
+
+```text
+SplitSukan
+```
+
+Technical identifiers:
+
+```text
+Package name: splitsukan
+Target repository name: splitsukan
+Proposed storage key: splitsukan:data
+Backup format: splitsukan-backup
+Proposed domain: splitsukan.ridzu.one
+```
+
+Avoid new references to the previous working name in product-facing content.
 
 ---
 
@@ -1243,7 +1456,7 @@ Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-
       "id": "session-example-1",
       "activityType": "badminton",
       "customActivityName": null,
-      "date": "2026-08-20",
+      "date": "2026-08-22",
       "startTime": "21:00",
       "venue": "ABC Badminton Centre",
       "note": "Court 3",
@@ -1257,7 +1470,8 @@ Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-
           "normalizedName": "juan",
           "defaultWeightUnits": 1000,
           "participantOrder": 0,
-          "isActive": true
+          "isActive": true,
+          "paymentProfileId": "payment-profile-juan"
         },
         {
           "id": "session-participant-amir",
@@ -1266,7 +1480,8 @@ Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-
           "normalizedName": "amir",
           "defaultWeightUnits": 1000,
           "participantOrder": 1,
-          "isActive": true
+          "isActive": true,
+          "paymentProfileId": null
         }
       ],
       "expenses": [
@@ -1292,19 +1507,19 @@ Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-
           "fixedContributions": []
         }
       ],
-      "repayments": [
-        {
-          "id": "repayment-amir-juan-1",
-          "fromParticipantId": "session-participant-amir",
-          "toParticipantId": "session-participant-juan",
-          "amountMinor": 1000,
-          "paidAt": "2026-08-20T12:00:00.000Z",
-          "note": "Partial DuitNow payment"
-        }
-      ]
+      "repayments": []
     }
   ],
   "savedParticipants": [],
+  "paymentProfiles": [
+    {
+      "id": "payment-profile-juan",
+      "savedParticipantId": "saved-participant-juan",
+      "displayName": "Juan",
+      "qrImageData": "LOCAL_IMAGE_REFERENCE",
+      "paymentNote": "Verify the recipient name before paying."
+    }
+  ],
   "settings": {
     "theme": "system",
     "defaultCurrency": "MYR",
@@ -1313,12 +1528,22 @@ Potential post-MVP work—login, Supabase, cloud sync, participant links, multi-
 }
 ```
 
-In this example, Juan pays RM40 and shares it equally with Amir, so each obligation is RM20. Initial balances are Juan +RM20 and Amir -RM20. After Amir repays RM10, current balances are Juan +RM10 and Amir -RM10; the session remains balanced at RM0.
+In this example, Juan pays RM40 and shares it equally with Amir, so each obligation is RM20. Initial balances are Juan +RM20 and Amir -RM20. Juan's payment profile supplies optional local payment instructions and does not change either balance.
 
 ---
 
 ## Appendix B — Product Approval
 
-Product Specification v0.1 is approved as the baseline for repository setup and implementation planning.
+Product Specification v0.2 is approved as the baseline for SplitSukan local MVP implementation.
 
-The next milestone is **Project Foundation**, beginning with creation of the GitHub repository. No login, Supabase, database, or multi-user functionality should be introduced during the local MVP.
+The approved direction is:
+
+- Organizer-first
+- No login
+- Local-first
+- Transparent calculations
+- Recipient payment QR in the local MVP
+- Read-only no-login guest payment link only after the local MVP is stable
+- Floating liquid-glass mobile navigation with a solid, accessible fallback
+
+No Google login, Supabase, database, or multi-user editing should be introduced during the local MVP.
