@@ -1,1 +1,234 @@
 @import "tailwindcss";
+@import "tailwindcss";
+
+/*
+ * SplitPlay design tokens
+ *
+ * These variables define the semantic color system used throughout the app.
+ * Components should use semantic names such as background, surface, primary,
+ * success, and danger instead of directly using fixed color utilities.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Base */
+  --background: oklch(0.985 0.003 160);
+  --foreground: oklch(0.205 0.015 165);
+
+  /* Surfaces */
+  --surface: oklch(1 0 0);
+  --surface-muted: oklch(0.965 0.006 160);
+  --surface-elevated: oklch(1 0 0);
+
+  /* Text */
+  --muted-foreground: oklch(0.48 0.018 165);
+  --subtle-foreground: oklch(0.6 0.015 165);
+
+  /* Borders and inputs */
+  --border: oklch(0.89 0.012 160);
+  --border-strong: oklch(0.78 0.018 160);
+  --input: oklch(0.94 0.008 160);
+  --input-hover: oklch(0.91 0.012 160);
+
+  /* Brand */
+  --primary: oklch(0.58 0.15 160);
+  --primary-hover: oklch(0.51 0.14 160);
+  --primary-foreground: oklch(0.99 0.004 160);
+
+  /* Secondary actions */
+  --secondary: oklch(0.94 0.018 160);
+  --secondary-hover: oklch(0.9 0.025 160);
+  --secondary-foreground: oklch(0.27 0.03 160);
+
+  /* Financial and application statuses */
+  --success: oklch(0.55 0.145 150);
+  --success-surface: oklch(0.95 0.04 150);
+  --success-foreground: oklch(0.31 0.095 150);
+
+  --warning: oklch(0.7 0.145 75);
+  --warning-surface: oklch(0.96 0.045 85);
+  --warning-foreground: oklch(0.39 0.09 65);
+
+  --danger: oklch(0.58 0.2 27);
+  --danger-surface: oklch(0.96 0.035 25);
+  --danger-foreground: oklch(0.42 0.15 27);
+
+  --info: oklch(0.58 0.15 245);
+  --info-surface: oklch(0.95 0.035 245);
+  --info-foreground: oklch(0.38 0.11 245);
+
+  /* Focus */
+  --focus-ring: oklch(0.66 0.16 160);
+
+  /* Overlay */
+  --overlay: oklch(0.15 0.01 165 / 55%);
+
+  /* Shadows */
+  --shadow-color: oklch(0.2 0.02 165 / 10%);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Base */
+  --background: oklch(0.16 0.014 165);
+  --foreground: oklch(0.94 0.008 160);
+
+  /* Surfaces */
+  --surface: oklch(0.205 0.016 165);
+  --surface-muted: oklch(0.24 0.018 165);
+  --surface-elevated: oklch(0.275 0.02 165);
+
+  /* Text */
+  --muted-foreground: oklch(0.72 0.018 160);
+  --subtle-foreground: oklch(0.6 0.018 160);
+
+  /* Borders and inputs */
+  --border: oklch(0.32 0.02 165);
+  --border-strong: oklch(0.42 0.025 165);
+  --input: oklch(0.255 0.018 165);
+  --input-hover: oklch(0.3 0.022 165);
+
+  /* Brand */
+  --primary: oklch(0.7 0.16 158);
+  --primary-hover: oklch(0.76 0.15 158);
+  --primary-foreground: oklch(0.16 0.03 160);
+
+  /* Secondary actions */
+  --secondary: oklch(0.275 0.025 160);
+  --secondary-hover: oklch(0.33 0.03 160);
+  --secondary-foreground: oklch(0.9 0.012 160);
+
+  /* Financial and application statuses */
+  --success: oklch(0.7 0.15 150);
+  --success-surface: oklch(0.265 0.055 150);
+  --success-foreground: oklch(0.88 0.075 150);
+
+  --warning: oklch(0.78 0.15 80);
+  --warning-surface: oklch(0.285 0.055 70);
+  --warning-foreground: oklch(0.9 0.09 85);
+
+  --danger: oklch(0.7 0.19 25);
+  --danger-surface: oklch(0.275 0.065 25);
+  --danger-foreground: oklch(0.88 0.08 25);
+
+  --info: oklch(0.7 0.145 245);
+  --info-surface: oklch(0.275 0.055 245);
+  --info-foreground: oklch(0.87 0.075 245);
+
+  /* Focus */
+  --focus-ring: oklch(0.75 0.15 158);
+
+  /* Overlay */
+  --overlay: oklch(0.08 0.01 165 / 72%);
+
+  /* Shadows */
+  --shadow-color: oklch(0.05 0.01 165 / 35%);
+}
+
+/*
+ * Expose the semantic variables as Tailwind utilities.
+ *
+ * Examples:
+ * bg-background
+ * bg-surface
+ * text-foreground
+ * text-muted-foreground
+ * border-border
+ * bg-primary
+ * text-primary-foreground
+ * ring-focus-ring
+ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-elevated: var(--surface-elevated);
+
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-input-hover: var(--input-hover);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-foreground: var(--danger-foreground);
+
+  --color-info: var(--info);
+  --color-info-surface: var(--info-surface);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-focus-ring: var(--focus-ring);
+  --color-overlay: var(--overlay);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/*
+ * Global element defaults
+ */
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--primary) 28%, transparent);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
