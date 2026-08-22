@@ -1,4 +1,4 @@
-# SplitSukan
+﻿# SplitSukan
 
 **Play together. Split fairly.**
 
@@ -187,11 +187,10 @@ Install:
 
 ### Clone the Repository
 
-> The repository URL will be updated after the GitHub repository is renamed from `splitplay` to `splitsukan`.
 
 ```bash
-git clone https://github.com/ameeridz/splitplay.git
-cd splitplay
+git clone https://github.com/ameeridz/splitsukan.git
+cd splitsukan
 ```
 
 ### Install Dependencies
@@ -266,34 +265,34 @@ Runs the previously generated production build.
 
 ```text
 splitsukan/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── .vscode/
-│   └── settings.json
-├── docs/
-│   └── product-spec.md
-├── public/
-├── src/
-│   ├── app/
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   └── components/
-│       ├── providers/
-│       │   └── theme-provider.tsx
-│       └── theme/
-│           └── theme-selector.tsx
-├── .gitignore
-├── AGENTS.md
-├── CLAUDE.md
-├── eslint.config.mjs
-├── next.config.ts
-├── package-lock.json
-├── package.json
-├── postcss.config.mjs
-├── README.md
-└── tsconfig.json
+â”œâ”€â”€ .github/
+â”‚   â””â”€â”€ workflows/
+â”‚       â””â”€â”€ ci.yml
+â”œâ”€â”€ .vscode/
+â”‚   â””â”€â”€ settings.json
+â”œâ”€â”€ docs/
+â”‚   â””â”€â”€ product-spec.md
+â”œâ”€â”€ public/
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ app/
+â”‚   â”‚   â”œâ”€â”€ globals.css
+â”‚   â”‚   â”œâ”€â”€ layout.tsx
+â”‚   â”‚   â””â”€â”€ page.tsx
+â”‚   â””â”€â”€ components/
+â”‚       â”œâ”€â”€ providers/
+â”‚       â”‚   â””â”€â”€ theme-provider.tsx
+â”‚       â””â”€â”€ theme/
+â”‚           â””â”€â”€ theme-selector.tsx
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ AGENTS.md
+â”œâ”€â”€ CLAUDE.md
+â”œâ”€â”€ eslint.config.mjs
+â”œâ”€â”€ next.config.ts
+â”œâ”€â”€ package-lock.json
+â”œâ”€â”€ package.json
+â”œâ”€â”€ postcss.config.mjs
+â”œâ”€â”€ README.md
+â””â”€â”€ tsconfig.json
 ```
 
 The structure will evolve incrementally as each approved feature is implemented.
@@ -322,15 +321,15 @@ Typical workflow:
 
 ```text
 Update main
-→ Create a focused feature branch
-→ Implement one coherent task
-→ Run quality checks
-→ Review changes
-→ Commit
-→ Push
-→ Open a pull request
-→ Review CI and Vercel preview
-→ Merge into main
+â†’ Create a focused feature branch
+â†’ Implement one coherent task
+â†’ Run quality checks
+â†’ Review changes
+â†’ Commit
+â†’ Push
+â†’ Open a pull request
+â†’ Review CI and Vercel preview
+â†’ Merge into main
 ```
 
 Do not implement new features directly on `main`.
@@ -414,3 +413,5 @@ SplitSukan is developed incrementally:
 No open-source license has been selected yet.
 
 Unless a license is added, the repository remains under standard copyright protection and should not be assumed to permit reuse, modification, or redistribution.
+
+
