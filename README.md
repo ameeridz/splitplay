@@ -1,30 +1,33 @@
-# SplitPlay
+# SplitSukan
 
 **Play together. Split fairly.**
 
-SplitPlay is a lightweight, mobile-first Progressive Web App for managing shared expenses and repayments for casual sports sessions such as badminton, futsal, and pickleball.
+SplitSukan is a lightweight, mobile-first Progressive Web App for managing shared expenses and repayments for casual sports sessions such as badminton, futsal, and pickleball.
 
 The initial release is a **single-organizer, local-first MVP**. It does not require login, participant accounts, a cloud database, or real-time collaboration.
 
 ## Project Status
 
-SplitPlay is currently in the **project foundation** stage.
+SplitSukan is currently in active development.
 
-Current progress:
+Completed foundations:
 
 - Product Specification v0.1 approved
-- GitHub repository initialized
-- Next.js project foundation created
+- GitHub repository and feature-branch workflow established
+- Next.js App Router foundation created
 - TypeScript, Tailwind CSS, and ESLint configured
-- App Router and `src/` directory enabled
-- Development server verified
-- Lint and production build verified
+- GitHub Actions continuous integration enabled
+- Vercel preview and production deployments enabled
+- Protected `main` branch configured
+- Semantic design tokens added
+- Light, Dark, and System themes configured
+- Responsive theme and design-token preview created
 
-Application features have not been implemented yet.
+Core session, participant, expense, and repayment features have not been implemented yet.
 
-## Problem SplitPlay Solves
+## Problem SplitSukan Solves
 
-Casual sports sessions often involve several shared costs:
+Casual sports sessions often involve shared costs such as:
 
 - Court rental
 - Shuttlecocks or balls
@@ -42,7 +45,7 @@ One or more participants usually pay first. Dividing the cost manually becomes d
 - Repayments are made partially
 - The organizer needs to track who owes money and who should receive money
 
-SplitPlay keeps these calculations and repayment records in one place and generates a compact summary that can be copied to WhatsApp.
+SplitSukan keeps these calculations and repayment records in one place and generates a compact summary that can be shared through WhatsApp.
 
 ## Local MVP Scope
 
@@ -70,21 +73,51 @@ The first MVP will support:
 - Responsive mobile, tablet, laptop, and desktop layouts
 - Installable PWA support
 
+## Planned Payment Experience
+
+The local MVP will allow an organizer to attach a payment QR to a participant who should receive money.
+
+Planned local capabilities include:
+
+- Attach, preview, replace, and remove a recipient payment QR
+- Download the recipient QR
+- Show the correct payment recipient in the financial summary
+- Include clear payment instructions in the WhatsApp summary
+- Keep the organizer in control of the official repayment status
+
+After the local MVP is stable, SplitSukan may add a read-only guest payment link that allows participants to:
+
+- Open a shared session without creating an account
+- Select their participant name
+- View the amount they need to pay
+- Review how the amount was calculated
+- View or download the correct recipient QR
+- View the organizer-maintained payment status
+
+The guest link will remain read-only. It will not provide participant editing access or automatically verify bank payments.
+
 ## Deliberately Out of Scope
 
 The local MVP will not include:
 
 - Login or authentication
+- Google login
 - Supabase or another cloud database
 - Cloud synchronization
 - Multi-user collaboration
 - Participant accounts or participant portals
+- Group membership and invitations
+- Real-time RSVP
 - Online payment processing
 - Automatic bank reconciliation
 - Direct WhatsApp API integration
 - Push notifications or automatic reminders
 - Receipt OCR
-- Club, team, tournament, or score management
+- Match scoring
+- Polls
+- Player statistics
+- Club or tournament management
+- Subscriptions or advertisements
 - Advanced analytics and reports
 
 These features will only be considered after the local-first MVP is stable.
@@ -95,15 +128,15 @@ These features will only be considered after the local-first MVP is stable.
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [next-themes](https://github.com/pacocoursey/next-themes)
 - Zustand
-- next-themes
 - Lucide React
 - Progressive Web App technologies
 - GitHub and GitHub Actions
 - Vercel
 - Cloudflare DNS
 
-> Zustand, next-themes, Lucide React, and PWA-specific dependencies will be introduced in dedicated milestones when required.
+> Zustand, Lucide React, and PWA-specific dependencies will be introduced in dedicated milestones when required.
 
 ## Product Specification
 
@@ -115,7 +148,7 @@ The Product Specification is the source of truth for the local MVP. Product deci
 
 ## Financial Model Principles
 
-SplitPlay follows several core financial rules:
+SplitSukan follows several core financial rules:
 
 - Monetary values are stored as integer minor units, such as sen
 - Each expense has exactly one upfront payer
@@ -154,6 +187,8 @@ Install:
 
 ### Clone the Repository
 
+> The repository URL will be updated after the GitHub repository is renamed from `splitplay` to `splitsukan`.
+
 ```bash
 git clone https://github.com/ameeridz/splitplay.git
 cd splitplay
@@ -162,7 +197,7 @@ cd splitplay
 ### Install Dependencies
 
 ```bash
-npm install
+npm ci
 ```
 
 ### Start the Development Server
@@ -195,13 +230,29 @@ npm run lint
 
 Runs ESLint against the project.
 
+### Type Check
+
+```bash
+npm run type-check
+```
+
+Generates Next.js route-aware types and checks TypeScript without producing application output.
+
 ### Production Build
 
 ```bash
 npm run build
 ```
 
-Creates an optimized production build and performs framework-level TypeScript validation.
+Creates an optimized production build.
+
+### Combined Quality Check
+
+```bash
+npm run check
+```
+
+Runs lint, type checking, and the production build in sequence.
 
 ### Start Production Server
 
@@ -214,15 +265,25 @@ Runs the previously generated production build.
 ## Current Project Structure
 
 ```text
-splitplay/
+splitsukan/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── .vscode/
+│   └── settings.json
 ├── docs/
 │   └── product-spec.md
 ├── public/
 ├── src/
-│   └── app/
-│       ├── globals.css
-│       ├── layout.tsx
-│       └── page.tsx
+│   ├── app/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   └── components/
+│       ├── providers/
+│       │   └── theme-provider.tsx
+│       └── theme/
+│           └── theme-selector.tsx
 ├── .gitignore
 ├── AGENTS.md
 ├── CLAUDE.md
@@ -239,7 +300,7 @@ The structure will evolve incrementally as each approved feature is implemented.
 
 ## Development Workflow
 
-SplitPlay uses a lightweight feature-branch workflow.
+SplitSukan uses a lightweight feature-branch workflow.
 
 Primary branch:
 
@@ -257,19 +318,13 @@ docs/*
 test/*
 ```
 
-Example:
-
-```text
-feature/project-foundation
-```
-
 Typical workflow:
 
 ```text
 Update main
 → Create a focused feature branch
 → Implement one coherent task
-→ Run lint and build
+→ Run quality checks
 → Review changes
 → Commit
 → Push
@@ -297,8 +352,8 @@ style:
 Examples:
 
 ```text
-feat: initialize Next.js project foundation
-docs: add SplitPlay repository documentation
+feat: add responsive application shell
+docs: update SplitSukan product documentation
 fix: prevent contribution from exceeding expense
 test: cover weighted split rounding
 chore: configure GitHub Actions
@@ -309,8 +364,7 @@ chore: configure GitHub Actions
 Before a development task is considered complete:
 
 ```bash
-npm run lint
-npm run build
+npm run check
 ```
 
 Relevant automated tests will be added as the financial engine is introduced.
@@ -327,28 +381,32 @@ UI work must also be reviewed for:
 
 ## Deployment
 
-Planned hosting:
+Current hosting:
 
-- Vercel for application deployment
-- Cloudflare for DNS
+- Vercel for preview and production deployments
+- GitHub Actions for continuous integration
+
+Planned DNS provider:
+
+- Cloudflare
 
 Proposed production URL:
 
 ```text
-https://splitplay.ridzu.one
+https://splitsukan.ridzu.one
 ```
 
-The production URL will be activated in a later deployment milestone.
+The custom production domain will be activated in a later deployment milestone.
 
 ## Development Approach
 
-SplitPlay is developed incrementally:
+SplitSukan is developed incrementally:
 
 - Discuss and lock product behavior before coding
 - Implement one small task or coherent change at a time
 - Keep financial logic separate from UI components
 - Use feature branches and pull requests
-- Run lint, tests, and production build before merging
+- Run lint, type checks, tests, and production build before merging
 - Avoid adding login, Supabase, or multi-user functionality before the local MVP is stable
 
 ## License
